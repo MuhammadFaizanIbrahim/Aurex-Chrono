@@ -59,9 +59,30 @@ export default function Hero({ scrollYProgress }: HeroProps) {
       
       <motion.div 
         style={{ opacity: useTransform(scrollYProgress, [0, 0.05], [1, 0]) }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/40 font-mono text-md tracking-[0.3em] uppercase"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/40 font-mono text-md tracking-[0.3em] uppercase"
       >
-        Scroll to Explore
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ 
+            duration: 2, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+          className="flex flex-col items-center"
+        >
+          <div className="w-[20px] h-[32px] border-2 border-white/20 rounded-full flex justify-center p-1">
+            <motion.div 
+              animate={{ y: [0, 4, 0] }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className="w-1 h-2 bg-white/40 rounded-full"
+            />
+          </div>
+        </motion.div>
+        <span>Scroll to Explore</span>
       </motion.div>
 
       <TextSection range={[0, 0.2]} scrollYProgress={scrollYProgress} className="items-center text-center">

@@ -25,29 +25,43 @@ export default function AurexCanvas({ progress }: AurexCanvasProps) {
 
   useEffect(() => {
     const loadImages = async () => {
-      const loadedImages: HTMLImageElement[] = [];
+      const loadedImages: HTMLImageElement[] = new Array(FRAME_COUNT);
       let loadedCount = 0;
 
-      for (let i = 1; i <= FRAME_COUNT; i++) {
-        const img = new Image();
-        // Format frame number to 4 digits: 0001, 0002, ...
-        const frameNumber = i.toString().padStart(4, "0");
-        img.src = `/frames2/frame_${frameNumber}.webp`;
-        
-        await new Promise((resolve) => {
-            img.onload = () => {
-                loadedCount++;
-                setLoadProgress(Math.round((loadedCount / FRAME_COUNT) * 100));
-                resolve(null);
-            };
-            img.onerror = () => {
-                 console.error(`Failed to load frame_${frameNumber}.webp`);
-                 // Resolve anyway to prevent blocking
-                 loadedCount++; 
-                 resolve(null);
-            }
+      // Helper to load a single image
+      const loadImage = (index: number) => {
+        return new Promise<void>((resolve) => {
+          const img = new Image();
+          const frameNumber = (index + 1).toString().padStart(4, "0");
+          img.src = `/frames2/frame_${frameNumber}.webp`;
+          
+          img.onload = () => {
+            loadedImages[index] = img;
+            loadedCount++;
+            setLoadProgress(Math.round((loadedCount / FRAME_COUNT) * 100));
+            resolve();
+          };
+          
+          img.onerror = () => {
+            console.error(`Failed to load frame_${frameNumber}.webp`);
+            loadedCount++;
+            resolve();
+          };
         });
-        loadedImages.push(img);
+      };
+
+      // 1. Load the first frame immediately to show content ASAP
+      await loadImage(0);
+      setImages([...loadedImages].filter(img => img !== undefined)); // Show initial frame
+      
+      // 2. Load the rest in batches to avoid overwhelming the browser
+      const BATCH_SIZE = 12;
+      for (let i = 1; i < FRAME_COUNT; i += BATCH_SIZE) {
+        const batch = [];
+        for (let j = i; j < i + BATCH_SIZE && j < FRAME_COUNT; j++) {
+          batch.push(loadImage(j));
+        }
+        await Promise.all(batch);
       }
 
       setImages(loadedImages);

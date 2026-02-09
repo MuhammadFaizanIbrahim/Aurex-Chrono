@@ -2,13 +2,16 @@
 
 import { useScroll } from "framer-motion";
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import Hero from "@/components/sections/Hero";
-import Craftsmanship from "@/components/sections/Craftsmanship";
-import Specifications from "@/components/sections/Specifications";
-import Gallery from "@/components/Gallery";
-import Narrative from "@/components/sections/Narrative";
-import Contact from "@/components/sections/Contact";
-import Footer from "@/components/Footer";
+
+// Lazy load non-critical sections
+const Craftsmanship = dynamic(() => import("@/components/sections/Craftsmanship"), { ssr: true });
+const Specifications = dynamic(() => import("@/components/sections/Specifications"), { ssr: true });
+const Gallery = dynamic(() => import("@/components/Gallery"), { ssr: true });
+const Narrative = dynamic(() => import("@/components/sections/Narrative"), { ssr: true });
+const Contact = dynamic(() => import("@/components/sections/Contact"), { ssr: true });
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: true });
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
