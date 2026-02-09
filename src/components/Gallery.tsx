@@ -10,7 +10,7 @@ const GALLERY_IMAGES = [
   "/gallery/Gemini_Generated_Image_zb7j2hzb7j2hzb7j.png",
   "/gallery/Whisk_1050c2b7f1ee896bad0489e482ed449adr.jpeg",
   "/gallery/Whisk_1adf2e9259decc991ea4c82e2fe89171dr.jpeg",
-  "/gallery/Gemini_Generated_Image_3ay9883ay9883ay9.png",
+  "/gallery/Gemini_Generated_Image_x8y1tkx8y1tkx8y1.png",
   "/gallery/Whisk_4bed491f8d396eb896644439c6cd3e76dr.jpeg",
   "/gallery/Whisk_6d8be167b5f5282a41f4218a4bb01379dr.jpeg",
   "/gallery/Whisk_a50bf19afba5a18ad8948d112bafd995dr.jpeg",
